@@ -1,4 +1,4 @@
-import re, time
+import argparse, re, time 
 
 
 class Song():
@@ -38,7 +38,7 @@ class Song():
             except EOFError:
                 break
             else:
-                if match := re.search(r"^[A-G](#|b)?(maj|min)?$", chord):
+                if _ := re.search(r"^[A-G](#|b)?(maj|min)?$", chord):
                     chords.append(chord)
                 else:
                     raise ValueError("Invalid Chord")
@@ -55,6 +55,9 @@ class Song():
         # Error checking for self.key
         if self.key not in Song.NOTES_SHARPS:
             raise ValueError("Original key must use sharps and be in NOTES_SHARPS.")
+        
+        # Print song as is to ensure correctness
+        print(self)
 
         # Calculate the number of half-steps to the new key
         halfsteps = Song.NOTES_SHARPS.index(new_key) - Song.NOTES_SHARPS.index(self.key)
@@ -75,20 +78,26 @@ class Song():
         # Finally, change the value for self.key
         self.key = new_key
 
+        # Show the transposed song
+        print("\nTransposed song:", end="")
+        print(self)
+
 
 def main():
-    # Instantiate a new song
-    song = Song.get_song()
 
-    # Print song as is to ensure correctness
-    print(song)
-
-    # Ask what key they want to change to
-    song.transpose(input("Enter the new key: "))
-
-    # Show the song in the transposed key
-    print(song)
-
+    parser = argparse.ArgumentParser(description="A simple music app")
+    parser.add_argument("-m", "--metronome",  action='store_true')
+    parser.add_argument("-t", "--transpose", action='store_true')
+    args = parser.parse_args()
+    if args.metronome:
+        metronome()
+    elif args.transpose:
+        # Instantiate a new song
+        song = Song.get_song()
+        # Ask what key they want to change to
+        song.transpose(input("Enter the new key: "))
+    else:
+        print("Please specify an action: --metronome or --transpose.")
 
 # implement a metronome using time.sleep()
 def metronome():
