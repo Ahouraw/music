@@ -23,7 +23,7 @@ class Song():
         # Get key and chords from user
         while True:
             try:
-                key = input("Key: ")
+                key = input("Key: ").title().strip()
             except EOFError:
                 raise ValueError("Key input cannot be empty.")
             else:
@@ -34,7 +34,7 @@ class Song():
         chords = []
         while True:
             try:
-                chord = input("Enter chords: ")
+                chord = input("Enter chords: ").title().strip()
             except EOFError:
                 break
             else:
@@ -95,7 +95,7 @@ def main():
         # Instantiate a new song
         song = Song.get_song()
         # Ask what key they want to change to
-        song.transpose(input("Enter the new key: "))
+        song.transpose(input("Enter the new key: ").title().strip())
     else:
         print("Please specify an action: --metronome or --transpose.")
 
