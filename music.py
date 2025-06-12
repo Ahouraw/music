@@ -101,7 +101,18 @@ def main():
 
 # implement a metronome using time.sleep()
 def metronome():
-    ...
+    bpm = input("Enter the beats per minute (BPM): ")
+    
+    while True:
+        try:
+            bpm = int(bpm)
+        except ValueError as e:
+            print(f"Invalid input: {e}")
+        else:
+            if bpm <= 0:
+                raise ValueError("BPM must be a positive integer.")
+            else:
+                break
 
 if __name__ == "__main__":
     main()
